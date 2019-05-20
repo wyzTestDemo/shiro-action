@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>音乐播放</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
+    <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <style>
+        .playBody{
+            margin-top: 1%;
+        }
+    </style>
+</head>
+<body>
+<audio id='myAudio'
+       preload='auto'></audio>
+<div class="layui-col-md3 playBody">
+    <i class="layui-icon layui-icon-left"  style="font-size: 30px;cursor: pointer;"></i>
+    <i class="layui-icon layui-icon-play" id="play" style="font-size: 30px;cursor: pointer;"></i>
+    <i class="layui-icon layui-icon-right" style="font-size: 30px;cursor: pointer;"></i>
+</div>
+<div class="layui-col-md9">
+</div>
+<script type="text/javascript" th:src="@{/js/musicPlay.js}"></script>
+<!--js获取后台数据值-->
+<script th:inline="javascript">
+    var myData = [[${uploadMusic}]];
+</script>
+<script>
+    MusicInit(myData);
+    $("#play").click(function () {
+        myPlay();
+    });
+    function switchMusic(data) {
+        MusicInit(data);
+        myPlay();
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>角色添加</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
+    <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+</head>
+
+<body>
+<div class="x-body">
+    <form action="" method="post" class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+            <label for="roleName" class="layui-form-label">
+                音乐名称
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="roleName" name="musicName" th:value="${uploadMusic?.musicName}"
+                       lay-verify="required" lay-vertype="tips"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="remark" class="layui-form-label">
+                音乐存储路径
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="remark" name="musicPath" th:value="${uploadMusic?.musicPath}"
+                       lay-verify="required" lay-vertype="tips"
+                       autocomplete="off" class="layui-input">
+            </div>
+            <!-- <label class="layui-form-label">
+                 上级菜单
+             </label>
+             <div class="layui-input-block">
+                 <div class="layui-unselect layui-form-select" id="parentNameDiv">
+                     <div class="layui-select-title">
+                         <input type="text" id="parentName"
+                                placeholder="请选择" class="layui-input layui-unselect" readonly>
+                         <input type="hidden" name="parentId" id="parentId">
+                         <i class="layui-edge"></i>
+                     </div>
+                 </div>
+                 <div class="layui-card dtree-select" id="parentTreeDiv">
+                     <div class="layui-card-body">
+                         <div id="toolbarDiv">
+                             <ul id="parentTree" class="dtree" data-id="0" style="width: 100%;"></ul>
+                         </div>
+                     </div>
+                 </div>
+             </div>-->
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left:0;text-align:center;">
+                <input type="hidden" name="id" th:value="${uploadMusic?.id}"/>
+                <button class="layui-btn layui-btn-blue" th:text="${uploadMusic}?'修改':'添加'" lay-submit=""
+                        data-th-lay-filter="${uploadMusic}?'edit':'add'">添加
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    layui.use(['form', 'layer'], function () {
+        $ = layui.jquery;
+        var form = layui.form
+            , layer = layui.layer;
+
+        // 监听提交
+        form.on('submit(add)', function (form) {
+            $.post('/role', form.field, function (result) {
+                handlerResult(result, addDone);
+            });
+            return false;
+        });
+
+        // 监听提交
+        form.on('submit(edit)', function (form) {
+            form.field._method = 'PUT';
+            $.post('/audit', form.field, function (result) {
+                handlerResult(result, editDone);
+            });
+            return false;
+        });
+
+
+        function addDone(data) {
+            layer.msg("添加成功", {icon: 6});
+        }
+
+        function editDone(data) {
+            layer.msg("修改成功", {icon: 6});
+        }
+    });
+</script>
+</body>
+
+</html>

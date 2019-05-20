@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <meta content="no-siteapp"/>
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
+    <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <style>
+        .contentIndex {
+            width: 99%;
+            height: 100%;
+            padding: 5px ;
+        }
+        .innerbox{
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            height: 200px;
+            padding: 10px;
+        }
+        .innerbox::-webkit-scrollbar {/*滚动条整体样式*/
+            width: 8px;     /*高宽分别对应横竖滚动条的尺寸*/
+            height: 8px;
+            scrollbar-arrow-color:red;
+
+        }
+        .innerbox::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+            border-radius: 20px;
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.02);
+            scrollbar-arrow-color:red;
+        }
+        .innerbox::-webkit-scrollbar-track {/*滚动条里面轨道*/
+            -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.01);
+            border-radius: 0;
+            background: rgba(106, 106, 106, 0.02);
+        }
+    </style>
+</head>
+<body class="contentIndex innerbox">
+<div class="layui-col-md12" style="background-color: white;height: 100%;">
+    <div class="layui-row">
+        <div class="layui-col-md10">
+            <h3>你好</h3>
+        </div>
+        <div class="layui-col-md2 layui-elem-field">
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this layui-col-md4"><i class="layui-icon layui-icon-fire"></i></li>
+                    <li class="layui-col-md4"><i class="layui-icon layui-icon-reply-fill"></i></li>
+                    <li class="layui-col-md4"><i class="layui-icon layui-icon-star"></i></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">热门文章</div>
+                    <div class="layui-tab-item">最新推荐</div>
+                    <div class="layui-tab-item">内容3</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

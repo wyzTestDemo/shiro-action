@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>音乐管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script type="text/javascript" th:src="@{/lib/jquery/jquery.min.js}"></script>
+    <script charset="utf-8" th:src="@{/lib/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+</head>
+
+<body class="animated fadeIn">
+<div class="x-nav">
+            <span class="layui-breadcrumb">
+                <a href="#">首页</a>
+                <a href="#">音乐吧后台管理</a>
+                <a><cite>音乐管理</cite></a>
+            </span>
+    <a class="layui-icon layui-icon-refresh"
+       style="float:right"
+       href="javascript:location.replace(location.href);" title="刷新"></a>
+</div>
+
+<div class="x-body">
+    <table class="layui-hide" id="uploadMusci-table"></table>
+</div>
+
+<script type="text/html" id="toolbar">
+    <shiro:hasPermission name="role:add">
+        <a class="layui-btn layui-btn-xs layui-btn-blue" lay-event="add">新增</a>
+    </shiro:hasPermission>
+</script>
+
+<script type="text/html" id="column-toolbar">
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="playMusic"> 播放</a>
+    <shiro:hasPermission name="uploadMusic:update">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="role:delete">
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </shiro:hasPermission>
+
+
+</script>
+<script>
+    layui.config({
+        base: '/lib/layui/extend/'
+    }).use(['table', 'element', 'dtree'], function () {
+        var table = layui.table;
+        var $ = layui.$;
+        var dtree = layui.dtree;
+
+        table.render({
+            elem: '#uploadMusci-table'
+            , url: '/audit/getAllMusic'
+            , cellMinWidth: 80
+            , page: true
+            , toolbar: '#toolbar'
+            , cols: [
+                [
+                    {field: 'id', title: 'ID', width: '10%', sort: true, fixed: 'left', align: 'center'},
+                    {field: 'musicName', title: '音乐名称', width: '25%', align: 'center'},
+                    {field: 'musicSize', title: '大小(M)', width: '10%', align: 'center'},
+                    {field: 'uploadTime', title: '上传时间', width: '15%', align: 'center'},
+                    {
+                        templet: function (o) {
+                            return o.user.username;
+                        }, title: '用户', width: '15%', align: 'center'
+                    },
+                    {title: '操作', fixed: 'right', align: 'center', toolbar: '#column-toolbar', width: "25%"}
+
+                ]
+            ]
+        });
+        table.on('toolbar', function (obj) {
+            var event = obj.event;
+            if (event === 'add') {
+                add();
+            }
+        });
+
+        table.on('tool', function (obj) {
+            var data = obj.data;
+            var event = obj.event;
+
+            if (event === 'edit') {
+                edit(data.id);
+            } else if (event === 'playMusic') {
+                playMusic(data);
+            } else if (event === 'del') {
+                del(obj);
+            }
+        });
+        /*播放音乐的状态*/
+        var playMusicStatus = false;
+        function playMusic(data) {
+            parent.refreshMusicStatus(data);
+           /* if(!playMusicStatus){
+                playMusicStatus = true;
+                parent.layer.close(parent.layer.index);
+                parent.layer.open({
+                    content: "/music/" + data.id,
+                    title: "音乐播放",
+                    area: ['100%', '15%'],
+                    resize: false,
+                    fixed: true,
+                    offset: 'lb',
+                    type: 2,
+                    closeBtn: 0,
+                    shade: false,
+                    maxmin: true,
+                    end: function () {
+                        /!* $(".layui-laypage-btn")[0].click();*!/
+                    }
+                });
+            }*/
+        }
+
+        function add() {
+            layer.open({
+                content: "/role",
+                title: "新增角色",
+                area: ['500px', '500px'],
+                type: 2,
+                maxmin: true,
+                shadeClose: true,
+                end: function () {
+                    /*$(".layui-laypage-btn")[0].click();*/
+                }
+            });
+        }
+
+        // closeBtn :0/*隐藏关闭按钮*/
+        //  parent.layer.open显示在父级元素  shade:0关闭遮罩
+        //shadeClose: true点击遮罩关闭弹出层
+        function edit(id) {
+            layer.open({
+                content: "/audit/" + id,
+                title: "编辑角色",
+                area: ['500px', '250px'],
+                type: 2,
+                maxmin: true,
+                shadeClose: true,
+                end: function () {
+                    /*$(".layui-laypage-btn")[0].click();*/
+                }
+            });
+        }
+
+        function del(obj) {
+            layer.confirm("确定删除角色吗?", {icon: 3, title: '提示'},
+                function (index) {// 确定回调
+                    var id = obj.data.roleId;
+                    $.post('/role/' + id, {_method: "DELETE"}, function (data) {
+                        layer.close(index);
+                        handlerResult(data, deleteDone);
+                    });
+                }, function (index) {//取消回调
+                    layer.close(index);
+                }
+            );
+        }
+
+        function deleteDone(data) {
+            parent.layer.msg("删除成功", {icon: 6});
+            table.reload('role-table');
+        }
+    });
+</script>
+</body>
+
+</html>
