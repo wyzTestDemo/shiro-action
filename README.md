@@ -58,26 +58,3 @@ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/shiro_action?useSSL=false&char
 
 启动后访问地址为：http://localhost:8080 , 用户名：admin, 密码：123456.
 
-## 系统预览
-
-![](https://cdn.jun6.net/201904032326_720.png)
-
-![](https://cdn.jun6.net/201904032327_602.png)
-
-![](https://cdn.jun6.net/201904032327_107.png)
-
-![](https://cdn.jun6.net/201904032327_936.png)
-
-![](https://cdn.jun6.net/201904032328_32.png)
-
-![](https://cdn.jun6.net/201904142201_744.png)
-
-![](https://cdn.jun6.net/2019/04/14/5cb340e86aacb.png)
-
-![](https://cdn.jun6.net/2019/04/14/5cb34129083c8.png)
-
-### 反馈交流
-
-QQ 群号: [850586205](//shang.qq.com/wpa/qunwpa?idkey=b482b2e48a938a993ef54adcff7ed499a45127a73802a68f1238256fb02ed425)
-
-![](https://cdn.jun6.net/201904141340_574.png)
