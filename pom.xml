@@ -32,7 +32,7 @@
         <shiro.redis.version>3.2.3</shiro.redis.version>
         <pagehelper.starter.verison>1.2.9</pagehelper.starter.verison>
         <thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
-        <fastjson.version>1.2.55</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <hutool.version>4.1.21</hutool.version>
     </properties>
 
